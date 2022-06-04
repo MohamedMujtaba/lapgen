@@ -1,46 +1,25 @@
-import { useState, useEffect } from 'react'
+import { Button, Container } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { Navbar } from "../components/Navbar";
 
 const Home = () => {
-  const [input, setInput] = useState('')
-  const [message, setMessage] = useState(null)
-
-  useEffect(() => {
-    const handleMessage = (event, message) => setMessage(message)
-    window.electron.message.on(handleMessage)
-
-    return () => {
-      window.electron.message.off(handleMessage)
-    }
-  }, [])
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    window.electron.message.send(input)
-    setMessage(null)
-  }
-
+  const navigation = useRouter();
   return (
-    <div>
-      <h1>Hello Electron!</h1>
+    <Container
+      // bg="red.100"
+      minW="100%"
+      minH="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Button onClick={() => navigation.push("/login")} variant="solid">
+        {" "}
+        Mohamed
+      </Button>
+    </Container>
+  );
+};
 
-      {message && <p>{message}</p>}
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-      </form>
-
-      <style jsx>{`
-        h1 {
-          color: red;
-          font-size: 50px;
-        }
-      `}</style>
-    </div>
-  )
-}
-
-export default Home
+export default Home;
